@@ -11,7 +11,7 @@ export default function Home() {
       <Head>
         <title>UpDown</title>
         <meta name="description" content="Bitcoin up or down? Deep Learning powered BTC Forecasting Algorithm" />
-        <link rel="icon" href="./components/images/logoSVG.svg" />
+        <link rel="icon" href="/logoSVG.svg" />
       </Head>
       
       <Dashboard/>
