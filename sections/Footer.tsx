@@ -2,6 +2,7 @@ import React from 'react'
 import { useState, useEffect } from 'react';
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import logoSVG from '../public/logoSVG.svg'
 
 
 const Footer = () => {
@@ -13,9 +14,7 @@ const Footer = () => {
           rel="noopener noreferrer"
         >
           Project by{' '}
-          <span className={styles.logo}>
-            <Image src="/logoSVG.svg" alt="UpDown Logo" width={50} height={50} />
-          </span>
+          <Image src={logoSVG} alt="UpDown Logo" width={50} height={50} />
         </a>
       </footer>
   )
