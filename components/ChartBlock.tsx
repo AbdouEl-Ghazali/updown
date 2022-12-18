@@ -112,9 +112,8 @@ const ChartBlock = () => {
                 res2.then((value) => setMetrics(value))
               }}
               width = '75px'
-              children = '1 Day'
               textSize = 'text-xs'
-            />
+              > {'1 Day'} </Button>
             <Button
               height = '35px'
               onClick = {() => {
@@ -124,9 +123,8 @@ const ChartBlock = () => {
                 res2.then((value) => setMetrics(value))
               }}
               width = '75px'
-              children = '7 Day'
               textSize = 'text-xs'
-            />
+              > {'7 Day'} </Button>
             <Button
               height = '35px'
               onClick = {() => {
@@ -136,9 +134,8 @@ const ChartBlock = () => {
                 res2.then((value) => setMetrics(value))
               }}
               width = '75px'
-              children = '30 Day'
               textSize = 'text-xs'
-            />
+            > {'30 Day'} </Button>
           </div>
         </div>
       </div>
