@@ -79,9 +79,6 @@ const ChartBlock = () => {
       const res1 = getForecast(24) as Promise<Forecast>
       const res2 = getMetrics(24) as Promise<Metrics>
       res1.then((value) => {
-        console.log('This is chartData:')
-        console.log(value)
-        console.log(Object.keys(value).length)
         if(Object.keys(value).length > 0) {
           setChartData(value)
           setMounted(true)
@@ -93,7 +90,7 @@ const ChartBlock = () => {
         }
       })
     }
-  }, [chartData, metrics])
+  }, [chartData, metrics, mounted])
 
   // if (!mounted) return null
 

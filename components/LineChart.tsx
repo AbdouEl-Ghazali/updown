@@ -27,7 +27,7 @@ import 'chartjs-adapter-date-fns';
 import { enUS } from 'date-fns/locale';
 import { useTheme } from 'next-themes';
 
-export const prepData = (chartData: Forecast) => {
+export const prepData = (chartData: Forecast, currentTheme : any) => {
   const gridLine: String = '#e6e6e6'
   const gridLineDark: String = '#404040'
   const tickColor: String = '#1a1a1a'
@@ -38,10 +38,6 @@ export const prepData = (chartData: Forecast) => {
   const incorrectColor: String = 'red'
   const forecastColor: String = 'blue'
 
-
-
-  const {systemTheme, theme, setTheme} = useTheme()
-  const currentTheme = theme === 'system' ? systemTheme : theme
 
   const forecast: Number[] = Object.values(chartData.data.forecasted)
   const actual: Number[] = Object.values(chartData.data.actual)
@@ -55,7 +51,6 @@ export const prepData = (chartData: Forecast) => {
             (value === null && forecast[index] < 0.5) ? (+priceClose[index - 1] - +5) : 
             value // Otherwise return value
   })
-  console.log(priceClose)
 
   const forecastColors: String[] = forecast.map((value, index) => {
     const actualTemp: Number = actual[index]
@@ -127,8 +122,10 @@ export const prepData = (chartData: Forecast) => {
 }
 
 const LineChart  = ({chartData}: any) => {
+  const {systemTheme, theme, setTheme} = useTheme()
+  const currentTheme = theme === 'system' ? systemTheme : theme
   
-  const prep = prepData(chartData)
+  const prep = prepData(chartData, currentTheme)
   return (<Line options={prep.options as any} data={prep.prepped as any} className='grow'/>)
 }
 export default LineChart;
