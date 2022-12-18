@@ -10,8 +10,8 @@ export default function Home() {
     <div>
       <Head>
         <title>UpDown</title>
-        <meta name="description" content="Bitcoin up or down?" />
-        <link rel="icon" href="/favicon.ico" />
+        <meta name="description" content="Bitcoin up or down? Deep Learning powered BTC Forecasting Algorithm" />
+        <link rel="icon" href="/logoSVG.svg" />
       </Head>
       
       <Dashboard/>

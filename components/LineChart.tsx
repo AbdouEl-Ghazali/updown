@@ -1,4 +1,8 @@
 import React from 'react';
+import { Line } from 'react-chartjs-2';
+import type { Forecast } from './ChartBlock';
+import { enUS } from 'date-fns/locale';
+import { useTheme } from 'next-themes';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,8 +14,7 @@ import {
   Legend,
   TimeScale
 } from 'chart.js';
-import { Line } from 'react-chartjs-2';
-import type { Forecast } from './ChartBlock';
+import 'chartjs-adapter-date-fns';
 
 ChartJS.register(
   CategoryScale,
@@ -23,9 +26,6 @@ ChartJS.register(
   Legend,
   TimeScale
 );
-import 'chartjs-adapter-date-fns';
-import { enUS } from 'date-fns/locale';
-import { useTheme } from 'next-themes';
 
 export const prepData = (chartData: Forecast, currentTheme : any) => {
   const gridLine: String = '#e6e6e6'
@@ -70,20 +70,43 @@ export const prepData = (chartData: Forecast, currentTheme : any) => {
     labels,
     datasets: [
       {
+        label: 'BTC Price',
         data: priceClose,
         borderColor: (() => {return (currentTheme === 'dark') ? lineColorDark : lineColor}),
         // backgroundColor: 'rgba(255, 99, 132, 0.5)',
         pointStyle: (() => {return (len < 30) ? 'triangle' : 'circle'}),
         rotation: rotation,
-        pointRadius: (() => {return (len < 30) ? 5 : 2}),
-        borderWidth: (() => {return (len < 30) ? 5 : 1}),
+        pointRadius: (() => {return (len < 30) ? 3 : 2}),
+        borderWidth: (() => {return (len < 30) ? 3 : 1}),
         pointHoverRadius: (() => {return (len < 30) ? 10 : 5}),
         pointBorderColor:  forecastColors,
-        pointBackgroundColor:  forecastColors
+        pointBackgroundColor:  forecastColors,
+        tension: 0.1
       },
+      {
+        label: 'Prediction',
+        data: rotation.map((value) => {return (value == 180)? 'DOWN' : 'UP'}),
+        pointBackgroundColor:  forecastColors,
+        hidden: true
+      },
+      {
+        label: 'Result',
+        data: forecastColors.map((value) => {return (value == correctColor)? 'Correct' : (value == incorrectColor)? 'Incorrect' : 'TBD'}),
+        pointBackgroundColor:  forecastColors,
+        hidden: true
+      }
     ],
   }
   const options = {
+    hover: {
+      mode: 'index',
+      axis: 'x',
+      intersect: false,
+    },
+    // interaction: {
+    //   mode: 'index',
+    //   axis: 'x'
+    // },
     scales: {
       x: {
         type: "time",
@@ -111,6 +134,12 @@ export const prepData = (chartData: Forecast, currentTheme : any) => {
         display: false,
         position: 'top' as const,
       },
+      tooltip: {
+        callbacks: {
+          label: (tooltipItem: any, chart: any) => prepped.datasets.map(ds => ds.label + ': ' + ds.data[tooltipItem.dataIndex]),
+        },
+        displayColors: false,
+      },
       // title: {
       //   display: true,
       //   text: 'Forecasting History',
@@ -126,6 +155,6 @@ const LineChart  = ({chartData}: any) => {
   const currentTheme = theme === 'system' ? systemTheme : theme
   
   const prep = prepData(chartData, currentTheme)
-  return (<Line options={prep.options as any} data={prep.prepped as any} className='grow'/>)
+  return (<Line options={prep.options as any} data={prep.prepped as any} className='grow mt-3 sm:mt-10 mx-0 sm:mx-3'/>)
 }
 export default LineChart;

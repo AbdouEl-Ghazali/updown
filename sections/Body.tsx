@@ -6,10 +6,10 @@ import ChartBlock from '../components/ChartBlock';
 
 const Body = () => {
   return (
-    <main className='container mx-auto px-10 py-10 space-y-10 flex flex-col justify-around align-center max-w-screen-xl'>
-      <h1 className={styles.title}>
-        Bitcoin, up or down?
-      </h1>
+    <main className='container mx-auto px-5 py-10 gap-5 gap-y-10 sm:p-10 sm:gap-10 flex flex-col justify-around align-center max-w-screen-xl'>
+      <div className={'text-2xl sm:text-5xl text-center'}>
+        Powered by Deep Learning.
+      </div>
       <ChartBlock />
     </main>
   )

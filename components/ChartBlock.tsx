@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 import LineChart from './LineChart';
 import Button from './Button';
 import Metrics from './Metrics';
+import UpDown from './UpDown';
 import { GetServerSideProps } from 'next';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { AppProps } from 'next/app';
@@ -73,14 +74,18 @@ const ChartBlock = () => {
   const [mounted, setMounted] = useState(false) 
   const [chartData, setChartData] = useState({} as Forecast)
   const [metrics, setMetrics] = useState({} as Metrics)
+  const [upDown, setUpDown] = useState('' as String)
+  const [upDownBG, setUpDownBG] = useState('' as String)
 
   useEffect(() => {
     if (!mounted) {
-      const res1 = getForecast(24) as Promise<Forecast>
+      const res1 = getForecast(25) as Promise<Forecast> // 25 because the last entry is a forecast
       const res2 = getMetrics(24) as Promise<Metrics>
       res1.then((value) => {
         if(Object.keys(value).length > 0) {
           setChartData(value)
+          setUpDown(() => {return (chartData.forecasted >= 0.5) ? 'UP' : 'DOWN'})
+          setUpDownBG(() => {return (chartData.forecasted >= 0.5) ? 'bg-green-500' : 'bg-red-500'})
           setMounted(true)
         }
       })
@@ -95,52 +100,59 @@ const ChartBlock = () => {
   // if (!mounted) return null
 
   return (mounted) ? (
-    
-    <div className='flex flex-auto flex-wrap gap-5'>
-      <div className='grow w-128 min-w-96 p-5 bg-zinc-100 bg-opacity-50 dark:bg-zinc-700 dark:bg-opacity-50 rounded-xl'>
-        <div className='flex flex-col'>
-          <div className=''>
-            <LineChart chartData={chartData}/>
-          </div>
-          <div className='grow self-center grid grid-flow-col gap-5 m-5 max-w-xs'>
-            <Button
-              height = '35px'
-              onClick = {() => {
-                const res1 = getForecast(24) as Promise<Forecast>
-                const res2 = getMetrics(24) as Promise<Metrics>
-                res1.then((value) => setChartData(value))
-                res2.then((value) => setMetrics(value))
-              }}
-              width = '75px'
-              textSize = 'text-xs'
-              > {'1 Day'} </Button>
-            <Button
-              height = '35px'
-              onClick = {() => {
-                const res1 = getForecast(168) as Promise<Forecast>
-                const res2 = getMetrics(168) as Promise<Metrics>
-                res1.then((value) => setChartData(value))
-                res2.then((value) => setMetrics(value))
-              }}
-              width = '75px'
-              textSize = 'text-xs'
-              > {'7 Day'} </Button>
-            <Button
-              height = '35px'
-              onClick = {() => {
-                const res1 = getForecast(720) as Promise<Forecast>
-                const res2 = getMetrics(720) as Promise<Metrics>
-                res1.then((value) => setChartData(value))
-                res2.then((value) => setMetrics(value))
-              }}
-              width = '75px'
-              textSize = 'text-xs'
-            > {'30 Day'} </Button>
+    <div className='flex flex-col place-content-center place-items-center justify-items-stretch gap-7'>
+      <UpDown upDownBG={upDownBG}>
+        {upDown}
+      </UpDown>
+      <div className='flex flex-auto flex-wrap w-fit sm:w-full gap-7'>
+        <div className='grow min-w-96 p-5 w-8/10 bg-zinc-200 bg-opacity-50 dark:bg-zinc-700 dark:bg-opacity-50 rounded-xl'>
+          <div className='flex flex-col'>
+            <div className='h-full flex flex-col place-content-center place-items-center mt-5 gap-5'>
+              <div className='text-center font text-md sm:text-2xl font-bold'>
+                Forecasting History:
+              </div>
+              <LineChart chartData={chartData}/>
+            </div>
+            <div className='grow self-center grid grid-flow-col gap-5 m-5 max-w-xs'>
+              <Button
+                height = '35px'
+                onClick = {() => {
+                  const res1 = getForecast(24) as Promise<Forecast>
+                  const res2 = getMetrics(24) as Promise<Metrics>
+                  res1.then((value) => setChartData(value))
+                  res2.then((value) => setMetrics(value))
+                }}
+                width = '75px'
+                textSize = 'text-xs'
+                > {'1 Day'} </Button>
+              <Button
+                height = '35px'
+                onClick = {() => {
+                  const res1 = getForecast(168) as Promise<Forecast>
+                  const res2 = getMetrics(168) as Promise<Metrics>
+                  res1.then((value) => setChartData(value))
+                  res2.then((value) => setMetrics(value))
+                }}
+                width = '75px'
+                textSize = 'text-xs'
+                > {'7 Day'} </Button>
+              <Button
+                height = '35px'
+                onClick = {() => {
+                  const res1 = getForecast(720) as Promise<Forecast>
+                  const res2 = getMetrics(720) as Promise<Metrics>
+                  res1.then((value) => setChartData(value))
+                  res2.then((value) => setMetrics(value))
+                }}
+                width = '75px'
+                textSize = 'text-xs'
+              > {'30 Day'} </Button>
+            </div>
           </div>
         </div>
-      </div>
-      <div className='grow w-32 min-w-96 p-5 bg-zinc-100 bg-opacity-50 dark:bg-zinc-700 dark:bg-opacity-50 rounded-xl'>
-        <Metrics metrics={metrics}/>
+        <div className='grow w-32 p-5 min-w-min bg-zinc-200 bg-opacity-50 dark:bg-zinc-700 dark:bg-opacity-50 rounded-xl'>
+          <Metrics metrics={metrics}/>
+        </div>
       </div>
     </div>
   ) : (
