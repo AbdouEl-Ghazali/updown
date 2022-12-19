@@ -117,7 +117,7 @@ const ChartBlock = () => {
               <Button
                 height = '35px'
                 onClick = {() => {
-                  const res1 = getForecast(24) as Promise<Forecast>
+                  const res1 = getForecast(25) as Promise<Forecast>
                   const res2 = getMetrics(24) as Promise<Metrics>
                   res1.then((value) => setChartData(value))
                   res2.then((value) => setMetrics(value))
@@ -128,7 +128,7 @@ const ChartBlock = () => {
               <Button
                 height = '35px'
                 onClick = {() => {
-                  const res1 = getForecast(168) as Promise<Forecast>
+                  const res1 = getForecast(169) as Promise<Forecast>
                   const res2 = getMetrics(168) as Promise<Metrics>
                   res1.then((value) => setChartData(value))
                   res2.then((value) => setMetrics(value))
@@ -139,7 +139,7 @@ const ChartBlock = () => {
               <Button
                 height = '35px'
                 onClick = {() => {
-                  const res1 = getForecast(720) as Promise<Forecast>
+                  const res1 = getForecast(721) as Promise<Forecast>
                   const res2 = getMetrics(720) as Promise<Metrics>
                   res1.then((value) => setChartData(value))
                   res2.then((value) => setMetrics(value))
