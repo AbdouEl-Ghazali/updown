@@ -105,10 +105,10 @@ const ChartBlock = () => {
         {upDown}
       </UpDown>
       <div className='flex flex-auto flex-wrap w-fit sm:w-full gap-7'>
-        <div className='grow min-w-96 p-5 w-8/10 bg-zinc-200 bg-opacity-50 dark:bg-zinc-700 dark:bg-opacity-50 rounded-xl'>
+        <div className='grow min-w-96 p-5 w-8/10 max-w-4xl bg-zinc-200 bg-opacity-50 dark:bg-zinc-700 dark:bg-opacity-50 rounded-xl'>
           <div className='flex flex-col'>
             <div className='h-full flex flex-col place-content-center place-items-center mt-5 gap-5'>
-              <div className='text-center font text-md sm:text-2xl font-bold'>
+              <div className='text-center font text-xl sm:text-2xl font-bold'>
                 Forecasting History:
               </div>
               <LineChart chartData={chartData}/>
