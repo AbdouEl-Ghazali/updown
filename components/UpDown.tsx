@@ -5,7 +5,9 @@ interface UpDown {
 }
 
 const UpDown = ({upDownBG, children}: any) => {
-  return (
+    const fontSizer = () => {return (children == 'UP')? 'text-5xl' : 'text-3xl'}
+    const fontSize = fontSizer()
+    return (
     <div className='flex flex-auto w-full justify-center'>
         <div className={`flex flex-col sm:flex-row gap-5 p-5 w-full justify-center sm:justify-between place-items-center bg-zinc-200 bg-opacity-50 dark:bg-zinc-700 dark:bg-opacity-50 rounded-xl`}>
             <div className='flex flex-col w-full sm:w-1/2 gap-5 py-5 sm:pl-5 text-justify sm:text-left '>
@@ -20,13 +22,13 @@ const UpDown = ({upDownBG, children}: any) => {
                 </div>
             </div>
             <div className={`flex place-content-center place-items-center w-full sm:w-[30%] h-24 sm:h-32 shrink-0 rounded-xl ${upDownBG}`}>
-                <div className='font text-2xl font-bold text-white'>
+                <div className={`font ${fontSize} font-bold text-white`}>
                     {children}
                 </div>
             </div>
         </div>
     </div>
-  )
+    )
 }
 
 export default UpDown
