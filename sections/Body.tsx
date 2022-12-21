@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import ChartBlock from '../components/ChartBlock';
+import ProjectInfo from '../components/ProjectInfo';
 
 const Body = () => {
   return (
@@ -11,6 +12,7 @@ const Body = () => {
         Powered by Deep Learning.
       </div>
       <ChartBlock />
+      <ProjectInfo />
     </main>
   )
 }
