@@ -18,7 +18,7 @@ const ProjectInfo = () => {
                     Neural networks can be used to forecast Bitcoin&apos;s price-action by learning from historical price data and using that knowledge to make predictions about future price movement. 
                     The UpDown model was built on over 5 years of Bitcoin&apos;s historical data, as well as some engineered technical data.
                     It was then trained to make predictions on future price-action. 
-                    UpDown's prediction accuracy was achieved by continually updating the model with new data, engineering new training features, and fine-tuning the training parameters.
+                    UpDown&apos;s prediction accuracy was achieved by continually updating the model with new data, engineering new training features, and fine-tuning the training parameters.
                     The end result is a fully-automated, robust model that holds up against live data pipelines existing on the AWS cloud.
                 </div>
                 <div className='font text-sm sm:text-md'>
