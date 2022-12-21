@@ -45,7 +45,7 @@ const ChartBlock = () => {
   }, [chartData, metrics, mounted])
 
   const getForecast = async (rowsRequested:Number) => {
-    const url = 'https://wni1mr4idl.execute-api.us-west-2.amazonaws.com/Alpha/forecast/'
+    const url = 'https://wni1mr4idl.execute-api.us-west-2.amazonaws.com/Alpha/forecast-v2/'
     const headers = {
         method: 'POST',
         body: JSON.stringify({ rows: rowsRequested })
@@ -63,7 +63,7 @@ const ChartBlock = () => {
   }
 
   const getMetrics = async (hoursRequested:Number) => {
-    const url = 'https://wni1mr4idl.execute-api.us-west-2.amazonaws.com/Alpha/accuracy/'
+    const url = 'https://wni1mr4idl.execute-api.us-west-2.amazonaws.com/Alpha/accuracy-v2/'
     const headers = {
         method: 'POST',
         body: JSON.stringify({ hours: hoursRequested })
