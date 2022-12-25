@@ -39,8 +39,8 @@ const ChartBlock = () => {
   useEffect(() => {
     if (!mounted) {
       setMounted(true)
-      getForecast(25) // 25 because the last entry is a forecast
-      getMetrics(24)
+      getForecast(721) // 25 because the last entry is a forecast
+      getMetrics(720)
     }
   }, [chartData, metrics, mounted])
 

@@ -30,7 +30,7 @@ const ProjectInfo = () => {
                 <div className='font text-xl text-center sm:text-justify sm:text-2xl font-bold'>
                     Disclaimer:
                 </div>
-                <div className='font text-sm sm:text-md text-left'>
+                <div className='font text-sm sm:text-md'>
                     This tool is provided for informational and educational purposes only and is not intended to be relied upon as a source of information when making financial decisions. 
                     The creator of the tool is not responsible for any errors or omissions or for any actions taken by the user based on the information provided by the tool. 
                     The tool is provided &ldquo;as is&rdquo; and the creator of the tool cannot be held liable for how users choose to use the tool.
