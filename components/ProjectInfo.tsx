@@ -5,12 +5,12 @@ import DALLEArt from '../public/DALLEArt.png'
 const ProjectInfo = () => {
   return (
     <div className='flex flex-col place-content-center place-items-center justify-items-stretch gap-7'>
-      <div className='flex flex-auto flex-wrap w-fit sm:w-full gap-7'>
-        <div className='flex flex-col sm:flex-row gap-5 p-5 w-full justify-center sm:justify-around place-items-center bg-zinc-200 bg-opacity-50 dark:bg-zinc-700 dark:bg-opacity-50 rounded-xl'>
+      <div className='flex flex-auto flex-wrap w-fit lg:w-full gap-7'>
+        <div className='flex flex-col lg:flex-row gap-5 p-5 w-full justify-center lg:justify-around place-items-center bg-zinc-200 bg-opacity-50 dark:bg-zinc-700 dark:bg-opacity-50 rounded-xl'>
             <div className={`flex place-content-center place-items-center sm:w-[40%]  overflow-clip rounded-xl`}>
                 <Image src={DALLEArt} alt='Tara Winstead Stock Photo' />
             </div>
-            <div className='flex flex-col w-full sm:w-1/2 gap-5 py-5 sm:pl-5 text-justify sm:text-left '>
+            <div className='flex flex-col w-full lg:w-1/2 gap-5 py-5 sm:pl-5 text-justify lg:text-left '>
                 <div className='font text-xl text-center sm:text-justify sm:text-2xl font-bold'>
                     Project Information:
                 </div>
@@ -22,9 +22,10 @@ const ProjectInfo = () => {
                     The end result is a closed loop, robust model that holds up against live data pipelines existing on the AWS cloud.
                 </div>
                 <div className='font text-sm sm:text-md'>
-                    Although the quoted accuracy of this tool may not appear to be high, in the world of trading you only have to be correct slightly over 50&#37; of the time to break even.
-                    Trading fees account for less than 1&#37; overall.
-                    Anything beyond that is considered profit, which means the accuracy of this tool, so long as it stays above 51&#37;, is statistically remarkable!
+                    Although the quoted accuracy of this tool may not appear to be high, long term trading typically follows casino probability where you only have to be correct slightly over 50&#37; of the time to break even.
+                    Trading fees account for less than 1&#37; of a trade. So what&apos;s left is the impact each trade had on the initial investment.
+                    In a nutshell, if Bitcoin is more volatile when this tool is wrong, then there is a potential for projected loss even if the tool were correct more than 50&#37; of the time.
+                    However, with past performance taken into account, this tool could provide day traders an edge.
                 </div>
     
                 <div className='font text-xl text-center sm:text-justify sm:text-2xl font-bold'>

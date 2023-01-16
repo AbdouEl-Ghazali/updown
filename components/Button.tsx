@@ -17,7 +17,7 @@ const Button: React.FC<Props> = ({
   }) => { 
   return (
     <button 
-      className={`${textSize} min-w-[${width}] min-h-[${height}] bg-transparent hover:bg-zinc-500 text-zinc-900 dark:text-blue-100 font-semibold hover:text-white border border-zinc-900 dark:border-blue-100 hover:border-transparent rounded`}
+      className={`${textSize} min-w-${width} min-h-${height} bg-transparent hover:bg-zinc-500 text-zinc-900 dark:text-blue-100 font-semibold hover:text-white border border-zinc-900 dark:border-blue-100 hover:border-transparent rounded`}
       onClick={onClick}
       style={{height, width}}
     >

@@ -4,6 +4,7 @@ import LineChart from './LineChart';
 import Button from './Button';
 import Metrics from './Metrics';
 import UpDown from './UpDown';
+import Calculator from './Calculator';
 
 export type Forecast = {
   statusCode: number, 
@@ -125,6 +126,7 @@ const ChartBlock = () => {
           <Metrics metrics={metrics}/>
         </div>
       </div>
+      <Calculator metrics={metrics} />
     </div>
   ) : (
     <p>Loading...</p>
