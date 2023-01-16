@@ -17,7 +17,7 @@ const Metrics = ({metrics}: any) => {
       <div className='text-center font text-xl sm:text-2xl font-bold'>
         Metrics:
       </div>
-      <div className='flex flex-auto flex-wrap place-content-center place-items-center min-w-min gap-5 mb-5 font text-sm sm:text-md text-center'>
+      <div className='flex flex-auto flex-wrap place-content-center place-items-center min-w-min gap-5 mb-5 font text-sm sm:text-base text-center'>
           <Metric metric={'Correct'} color={correctColor}> 
             {correct}
           </Metric>

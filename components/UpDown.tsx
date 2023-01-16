@@ -14,12 +14,12 @@ const UpDown = ({upDownBG, children}: any) => {
                 <div className='font text-xl text-center sm:text-justify sm:text-2xl font-bold'>
                     Current prediction:
                 </div>
-                <div className='font text-sm sm:text-md'>
+                <div className='font text-sm sm:text-base'>
                     The UpDown algorithm predicts hourly Bitcoin price-action using a state of the art neural network trained on over 5 years of data. 
                     The current prediction is that Bitcoin will go {children.toLowerCase()} in price by the next hour&apos;s close. 
                     Signals are created at the beginning of the hour, and are released within 10 minutes of each hour.
                 </div>
-                <div className='font text-sm sm:text-md text-left'>
+                <div className='font text-sm sm:text-base text-left'>
                     WARNING! This forecasting tool is for educational purposes only.
                 </div>
             </div>
