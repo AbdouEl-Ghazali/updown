@@ -74,12 +74,12 @@ const Calculator = ({metrics}: any) => {
                 </div>
                 <div className='text-xs sm:text-base'>
                     <Latex>
-                        $$profit = \sum_&#123;t=0&#125;^&#123;hours&#125;funds_&#123;t&#125;\times(1 \pm c_t - \frac&#123;2\times fee&#125;&#123;100&#125;)$$
+                        $$profit \approx \sum_&#123;t=0&#125;^&#123;hours&#125;funds_&#123;t&#125;\times(1 \pm c_t - 2\times fees)$$
                         $funds_&#123;t&#125; = $ starting funds at open for hour $t\\$
                         $c_t =$ percent change at close for hour $t\\$
-                        $2\times fee \approx$ maker $+$ taker$\\$
-                        $fee = 0$ if the forecast is unchanged$\\$
-                        $\pm$ to denote correct or incorrect prediction for hour $n$
+                        $fees = \frac&#123;maker+taker&#125;&#123;2&#125; = $ input trading fees$\\$
+                        $fees = 0$ if the forecast is unchanged$\\$
+                        $\pm$ to denote correct or incorrect prediction for hour $t$
                     </Latex>
                 </div>
                 <div className='font text-sm sm:text-base text-left'>
