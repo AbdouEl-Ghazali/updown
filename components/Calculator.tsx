@@ -63,34 +63,35 @@ const Calculator = ({metrics}: any) => {
                     Calculator:
                 </div>
                 <div className='font text-sm sm:text-md'>
-                    This calculator assumes profitablity for a given set of starting funds and exchange trading fees. 
-                    The trading logic assumed is that a long position is opened for each &apos;up&apos; signal, and a short position is opened for each &apos;down&apos; signal.
+                    Calculate the profitablity for a given set of starting funds and exchange trading fees, 
+                    provided that the following trading logic had been used for the selected chart time period. 
+                    The trading logic assumed is that a long position is opened for each &apos;up&apos; signal, and a short position is opened for each &apos;down&apos; signal. 
                     The trade is not closed until the indicator changes from &apos;up&apos; to &apos;down&apos;, or vice&ndash;versa. New trades are only opened after a trade is closed. 
                     These are not trading suggestions, they only represent the logic behind this calculator.
                 </div>
                 <div className='font text-sm sm:text-md text-left'>
-                    WARNING! Projected profit may not be accurate.
+                    WARNING! Calculated profit may not be accurate.
                 </div>
             </div>
-            <div className='flex w-fit lg:w-1/2 lg:m-5 gap-5 py-5 px-3 sm:px-5 text-center lg:text-left bg-zinc-200 bg-opacity-50 dark:bg-zinc-700 rounded-xl'>
+            <div className='flex w-fit lg:w-1/2 m-3 lg:m-5 gap-5 py-5 px-3 sm:px-5 text-center lg:text-left bg-zinc-200 bg-opacity-50 dark:bg-zinc-700 rounded-xl'>
                 <div className='flex flex-row flex-wrap w-full min-w-fit justify-between gap-3 font text-sm sm:text-md'>
-                    <div className={`flex flex-col sm:flex-row place-content-between place-items-center w-full min-w-fit px-10 py-3 h-fit gap-3 shrink-0 rounded-xl text-white ${profitBG}`}>
+                    <div className={`flex flex-col sm:flex-row place-content-between place-items-center w-full min-w-fit sm:px-10 py-3 h-fit gap-3 shrink-0 rounded-xl text-white ${profitBG}`}>
                         <div className={`font font-bold text-lg sm:text-2xl`}>
-                            Projected profit:
+                            Calculated profit:
                         </div>
                         <div className={`font font-bold text-xl sm:text-2xl text-right`}>
                             ${profit.toFixed(2)}
                         </div>
                     </div>
-                    <div className={`flex flex-col sm:flex-row place-content-between place-items-center w-full min-w-fit px-10 py-3 h-fit gap-3 shrink-0 rounded-xl bg-zinc-300 dark:bg-zinc-800`}>
+                    <div className={`flex flex-col sm:flex-row place-content-between place-items-center w-full min-w-fit sm:px-10 py-3 h-fit gap-3 shrink-0 rounded-xl bg-zinc-300 dark:bg-zinc-800`}>
                         <div className={`font font-bold text-md sm:text-lg`}>
-                            Starting funds:
+                            Starting funds &#40;&#36;&#41;:
                         </div>
                         <input name='starting funds' type='number' value={funds} onChange={(event: any) => setFunds(event.target.value)} step={100} className='max-w-[30%] text-center sm:text-right text-lg bg-zinc-300 dark:bg-zinc-800' />
                     </div>
-                    <div className={`flex flex-col sm:flex-row place-content-center sm:place-content-between place-items-center w-full min-w-fit px-10 py-3 h-fit gap-3 shrink-0 rounded-xl bg-zinc-300 dark:bg-zinc-800`}>
+                    <div className={`flex flex-col sm:flex-row place-content-center sm:place-content-between place-items-center w-full min-w-fit sm:px-10 py-3 h-fit gap-3 shrink-0 rounded-xl bg-zinc-300 dark:bg-zinc-800`}>
                         <div className={`font font-bold text-md sm:text-lg`}>
-                            Trading fees:
+                            Trading fees &#40;&#37;&#41;:
                         </div>
                         <input name='exchange fees' type='number' value={fees} onChange={(event: any) => setFees(event.target.value)} step={0.01} className='max-w-[30%] text-center sm:text-right text-lg bg-zinc-300 dark:bg-zinc-800' />
                     </div>
