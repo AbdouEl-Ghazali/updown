@@ -9,7 +9,7 @@ const Calculator = ({metrics}: any) => {
     const [data, setData] = useState({} as Metrics)
     const [mounted, setMounted] = useState(false)
     const [funds, setFunds] = useState(1000.0)
-    const [fees, setFees] = useState(0.03)
+    const [fees, setFees] = useState(0.0) // Binance allows 0% trading fees for some pairs
     const [profit, setProfit] = useState(0.0)
     const [profitBG, setProfitBG] = useState('')
 
