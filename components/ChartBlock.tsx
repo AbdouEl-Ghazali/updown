@@ -19,8 +19,11 @@ export type Forecast = {
 export type Metrics = {
   statusCode: number, 
   body: String, 
+  forecasted: number;
   correct: number;
   incorrect: number;
+  upSignals: number;
+  downSignals: number;
   total: number;
   data: {
       forecasted: any;
@@ -40,8 +43,8 @@ const ChartBlock = () => {
   useEffect(() => {
     if (!mounted) {
       setMounted(true)
-      getForecast(721) // 25 because the last entry is a forecast
-      getMetrics(720)
+      getForecast(169) // 25 because the last entry is a forecast
+      getMetrics(168)
     }
   }, [chartData, metrics, mounted])
 
@@ -87,9 +90,11 @@ const ChartBlock = () => {
           <div className='flex flex-col'>
             <div className='h-full flex flex-col place-content-center place-items-center mt-5 gap-5'>
               <div className='text-center font text-xl sm:text-2xl font-bold'>
-                Forecasting History:
+                UpDown Indicator History:
               </div>
-              {chart}
+              <div className='container h-[350px] w-[95%] mt-3'>
+                {chart}
+              </div>
             </div>
             <div className='grow self-center grid grid-flow-col gap-5 m-5 max-w-xs'>
               <Button
