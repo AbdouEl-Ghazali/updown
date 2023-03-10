@@ -32,9 +32,9 @@ const Calculator = ({metrics}: any) => {
                 const nextPrice: any = Object.values(price)[Object.keys(price).indexOf(key) + 1]
                 const correctPred: any = Object.values(correct)[Object.keys(correct).indexOf(key) + 1]
                 const percentChange: any = Math.abs((nextPrice-currentPrice)/currentPrice) // We have short and long positions, we don't care about positive or negative changes
-                const lastForecast: any = Math.round(forecasted[key]) // Forecasts are paired with their associated timestamp, so current timestamp is last hour's forecast
-                const currentForecast: any = Math.round(Object.values(forecasted)[Object.keys(forecasted).indexOf(key) + 1] as any)
-                const adjustedFee = () => {return (lastForecast == currentForecast) ? 0 : (fees/100)}
+                const currentForecast: any = Math.round(forecasted[key]) // Forecasts are paired with their associated timestamp, so current timestamp is last hour's forecast
+                const nextForecast: any = Math.round(Object.values(forecasted)[Object.keys(forecasted).indexOf(key) + 1] as any)
+                const adjustedFee = () => {return (currentForecast == nextForecast) ? 0 : (fees/100)}
                 if (correctPred) {
                     funds = funds*(1 + percentChange - 2*adjustedFee())
                 } else {

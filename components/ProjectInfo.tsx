@@ -22,10 +22,11 @@ const ProjectInfo = () => {
                     The end result is a closed loop, robust model that holds up against live data pipelines existing on the AWS cloud.
                 </div>
                 <div className='font text-sm sm:text-base'>
-                    Although the quoted accuracy of this tool may not appear to be high, long term trading typically follows casino probability where you only have to be correct slightly over 50&#37; of the time to break even.
-                    Trading fees account for less than 1&#37; of a trade. So what&apos;s left is the impact each trade had on the initial investment.
-                    In a nutshell, if Bitcoin is more volatile when this tool is wrong, then there is a potential for projected loss even if the tool were correct more than 50&#37; of the time.
-                    However, with past performance taken into account, this tool could provide day traders an edge.
+                    It&apos;s important to keep in mind that this tool will face continuous improvements in order to maintain a positive calculated profitability.
+                    The goal is to explore what neural networks are truly capable of. 
+                    In these early stages of the world&apos;s AI awakening, the resources available are cutting edge and may be riddled with flaws. 
+                    Despite that, it is our mission to create a reasonable tool that takes advantage of up to date technology in order to drive better performance.
+                    While this tool only forecasts Bitcoin, we have plans to expand coverage into other assets. Join us on this journey!
                 </div>
     
                 <div className='font text-xl text-center sm:text-justify sm:text-2xl font-bold'>
