@@ -43,8 +43,8 @@ const ChartBlock = () => {
   useEffect(() => {
     if (!mounted) {
       setMounted(true)
-      getForecast(169) // 25 because the last entry is a forecast
-      getMetrics(168)
+      getForecast(169) // 169 hours for 7 days because the last entry is a forecast
+      getMetrics(169)
     }
   }, [chartData, metrics, mounted])
 
@@ -101,7 +101,7 @@ const ChartBlock = () => {
                 height = '35px'
                 onClick = {() => {
                   getForecast(25)
-                  getMetrics(24)
+                  getMetrics(25)
                 }}
                 width = '75px'
                 textSize = 'text-xs'
@@ -110,7 +110,7 @@ const ChartBlock = () => {
                 height = '35px'
                 onClick = {() => {
                   getForecast(169)
-                  getMetrics(168)
+                  getMetrics(169)
                 }}
                 width = '75px'
                 textSize = 'text-xs'
@@ -119,7 +119,7 @@ const ChartBlock = () => {
                 height = '35px'
                 onClick = {() => {
                   getForecast(721)
-                  getMetrics(720)
+                  getMetrics(721)
                 }}
                 width = '75px'
                 textSize = 'text-xs'

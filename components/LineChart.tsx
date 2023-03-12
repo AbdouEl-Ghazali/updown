@@ -54,9 +54,10 @@ export const prepData = (chartData: Forecast, currentTheme : any) => {
   })
 
   const forecastColors: String[] = forecast.map((value, index) => {
-    return (value >= 0.5) ? upColor : 
-          (value < 0.5) ? downColor :
-                            forecastColor;  // draw bad predictions in red, draw good predictions in green, forecast in blue
+    return (index === Object.keys(forecast).length - 1) ? forecastColor:
+           (value >= 0.5) ? upColor : 
+           (value < 0.5) ? downColor :
+           pointColor;  // draw down predictions in red, draw up predictions in green, forecast in blue, hide error
   })
 
   const rotation = forecast.map((value) => {

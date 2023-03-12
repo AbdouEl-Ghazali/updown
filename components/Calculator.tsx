@@ -16,10 +16,10 @@ const Calculator = ({metrics}: any) => {
     const setBG = async () => {return (profit >= 0) ? 'bg-green-500' : 'bg-red-500'}
     const calculate = async(funds:number, fees:number) => {
         // Trading logic:
-        // is Priceclose buy or sell? -> 
-        // is nextPriceclose buy or sell? -> 
-        //      if buy and prevBuy -> do nothing
-        //      else if sell and prevSell -> do nothing
+        // is correctPred? -> funds++ else funds--
+        // is currentForecast up or down? -> 
+        // is lastForecast up or down? -> 
+        //      if same -> do nothing
         //      else -> close, open new position
         
         const correct = await data.data?.correct
@@ -28,13 +28,14 @@ const Calculator = ({metrics}: any) => {
 
         for (var key in price) {
             if (Object.keys(price).indexOf(key) != (Object.keys(price).length)-1){ // Don't include the last entry
+                const index: any = Object.keys(price).indexOf(key)
                 const currentPrice: any = price[key]
-                const nextPrice: any = Object.values(price)[Object.keys(price).indexOf(key) + 1]
-                const correctPred: any = Object.values(correct)[Object.keys(correct).indexOf(key) + 1]
-                const percentChange: any = Math.abs((nextPrice-currentPrice)/currentPrice) // We have short and long positions, we don't care about positive or negative changes
+                const lastPrice: any = () => {return (index === 0) ? price[key] : Object.values(price)[Object.keys(price).indexOf(key) - 1]}
+                const correctPred: any = Object.values(correct)[Object.keys(correct).indexOf(key)]
+                const percentChange: any = Math.abs((lastPrice()-currentPrice)/lastPrice()) // We have short and long positions, we don't care about positive or negative changes
                 const currentForecast: any = Math.round(forecasted[key]) // Forecasts are paired with their associated timestamp, so current timestamp is last hour's forecast
-                const nextForecast: any = Math.round(Object.values(forecasted)[Object.keys(forecasted).indexOf(key) + 1] as any)
-                const adjustedFee = () => {return (currentForecast == nextForecast) ? 0 : (fees/100)}
+                const lastForecast: any = () => {return (index === 0) ? currentForecast : Math.round(Object.values(forecasted)[Object.keys(forecasted).indexOf(key) - 1] as any)}
+                const adjustedFee: any = () => {return (currentForecast == lastForecast()) ? 0 : (fees/100)}
                 if (correctPred) {
                     funds = funds*(1 + percentChange - 2*adjustedFee())
                 } else {
