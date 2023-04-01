@@ -10,6 +10,7 @@ const Calculator = ({metrics}: any) => {
     const [mounted, setMounted] = useState(false)
     const [funds, setFunds] = useState(1000.0)
     const [fees, setFees] = useState(0.0) // Binance allows 0% trading fees for some pairs
+    const [stopLoss, setStopLoss] = useState(0.1)
     const [profit, setProfit] = useState(0.0)
     const [profitBG, setProfitBG] = useState('')
 
@@ -25,9 +26,11 @@ const Calculator = ({metrics}: any) => {
         const correct = await data.data?.correct
         const forecasted = await data.data?.forecasted
         const price = await data.data?.price_close
+        var stopTrade = false
 
         for (var key in price) {
             if (Object.keys(price).indexOf(key) != (Object.keys(price).length)-1){ // Don't include the last entry
+                
                 const index: any = Object.keys(price).indexOf(key)
                 const currentPrice: any = price[key]
                 const lastPrice: any = () => {return (index === 0) ? price[key] : Object.values(price)[Object.keys(price).indexOf(key) - 1]}
@@ -36,10 +39,25 @@ const Calculator = ({metrics}: any) => {
                 const currentForecast: any = Math.round(forecasted[key]) // Forecasts are paired with their associated timestamp, so current timestamp is last hour's forecast
                 const lastForecast: any = () => {return (index === 0) ? currentForecast : Math.round(Object.values(forecasted)[Object.keys(forecasted).indexOf(key) - 1] as any)}
                 const adjustedFee: any = () => {return (currentForecast == lastForecast()) ? 0 : (fees/100)}
+
+                // Trailing stop loss
+                const adjustedPercentChange: any = (inc: Boolean) => {
+                    if (percentChange > stopLoss / 100 && inc) { // Is the prediction incorrect? is the stop loss active?
+                        stopTrade = true
+                        return stopLoss / 100
+                    } else if (currentForecast != lastForecast()) { // Is this a new trade?
+                        stopTrade = false
+                        return percentChange
+                    } else if (stopTrade) { // Stop loss active
+                        return 0
+                    } else {
+                        return percentChange // Stop loss inactive
+                    }
+                }
                 if (correctPred) {
-                    funds = funds*(1 + percentChange - 2*adjustedFee())
+                    funds = funds*(1 + adjustedPercentChange(false) - 2*adjustedFee())
                 } else {
-                    funds = funds*(1 - percentChange - 2*adjustedFee())
+                    funds = funds*(1 - adjustedPercentChange(true) - 2*adjustedFee())
                 }
             }
         }
@@ -70,14 +88,17 @@ const Calculator = ({metrics}: any) => {
                     Calculate the profitablity for a given set of starting funds and exchange trading fees, 
                     provided that the following trading logic had been used for the selected chart time period. 
                     The trading logic assumed is that a long position is opened for each &apos;up&apos; signal, and a short position is opened for each &apos;down&apos; signal. 
-                    The trade is not closed until the indicator changes from &apos;up&apos; to &apos;down&apos;, or vice&ndash;versa. New trades are only opened after a trade is closed. 
+                    The trade is not closed until the indicator changes from &apos;up&apos; to &apos;down&apos;, or vice&ndash;versa. New trades are only opened after a trade is closed.
+                    If trailing stop is active, the trade is closed when triggered. The trade remains closed until the next indicator change. 
+                    The trailing stop is only checked on an hourly basis.
+                    Setting the trailing stop to 100&#37; will deactivate it.
                     These are not trading suggestions, they only represent the logic behind this calculator.
                 </div>
                 <div className='text-xs sm:text-base'>
                     <Latex>
                         $$profit \approx \sum_&#123;t=0&#125;^&#123;hours&#125;funds_&#123;t&#125;\times(1 \pm c_t - 2\times fees)$$
                         $funds_&#123;t&#125; = $ starting funds at open for hour $t\\$
-                        $c_t =$ percent change at close for hour $t\\$
+                        $c_t =$ adjusted percent change at close for hour $t\\$
                         $fees = \frac&#123;maker+taker&#125;&#123;2&#125; = $ input trading fees$\\$
                         $fees = 0$ if the forecast is unchanged$\\$
                         $\pm$ to denote correct or incorrect prediction for hour $t$
@@ -108,6 +129,12 @@ const Calculator = ({metrics}: any) => {
                             Trading fees &#40;&#37;&#41;:
                         </div>
                         <input name='exchange fees' type='number' value={fees} onChange={(event: any) => setFees(event.target.value)} step={0.01} className='max-w-[30%] text-center sm:text-right text-lg bg-zinc-300 dark:bg-zinc-800' />
+                    </div>
+                    <div className={`flex flex-col sm:flex-row place-content-center sm:place-content-between place-items-center w-full min-w-fit sm:px-10 py-3 h-fit gap-3 shrink-0 rounded-xl bg-zinc-300 dark:bg-zinc-800`}>
+                        <div className={`font font-bold text-base sm:text-lg`}>
+                            Trailing stop &#40;&#37;&#41;:
+                        </div>
+                        <input name='exchange fees' type='number' value={stopLoss} onChange={(event: any) => setStopLoss(event.target.value)} step={0.1} className='max-w-[30%] text-center sm:text-right text-lg bg-zinc-300 dark:bg-zinc-800' />
                     </div>
                     <div className='flex w-full place-content-center'>
                         <Button
