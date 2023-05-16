@@ -23,6 +23,7 @@ const ProjectInfo = () => {
                 </div>
                 <div className='font text-sm sm:text-base'>
                     It&apos;s important to keep in mind that this tool will face continuous improvements in order to maintain a positive calculated profitability.
+                    The most recent improvement decreased prediction volatility in order to promote increased long term profitability.
                     The goal is to explore what neural networks are truly capable of. 
                     In these early stages of the world&apos;s AI awakening, the resources available are cutting edge and may be riddled with flaws. 
                     Despite that, it is our mission to create a reasonable tool that takes advantage of up to date technology in order to drive better performance.

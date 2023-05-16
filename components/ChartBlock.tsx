@@ -43,8 +43,8 @@ const ChartBlock = () => {
   useEffect(() => {
     if (!mounted) {
       setMounted(true)
-      getForecast(169) // 169 hours for 7 days because the last entry is a forecast
-      getMetrics(169)
+      getForecast(721) // 721 hours for 30 days because the last entry is a forecast
+      getMetrics(721)
     }
   }, [chartData, metrics, mounted])
 
