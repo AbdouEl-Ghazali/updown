@@ -10,7 +10,8 @@ const Calculator = ({metrics}: any) => {
     const [mounted, setMounted] = useState(false)
     const [funds, setFunds] = useState(1000.0)
     const [fees, setFees] = useState(0.0) // Binance allows 0% trading fees for some pairs
-    const [stopLoss, setStopLoss] = useState(0.1)
+    const [stopLoss, setStopLoss] = useState(0.5)
+    const [takeProfit, setTakeProfit] = useState(1.0)
     const [profit, setProfit] = useState(0.0)
     const [profitBG, setProfitBG] = useState('')
 
@@ -27,6 +28,7 @@ const Calculator = ({metrics}: any) => {
         const forecasted = await data.data?.forecasted
         const price = await data.data?.price_close
         var stopTrade = false
+        var savedPrice = 0.0
 
         for (var key in price) {
             if (Object.keys(price).indexOf(key) != (Object.keys(price).length)-1){ // Don't include the last entry
@@ -40,20 +42,23 @@ const Calculator = ({metrics}: any) => {
                 const lastForecast: any = () => {return (index === 0) ? currentForecast : Math.round(Object.values(forecasted)[Object.keys(forecasted).indexOf(key) - 1] as any)}
                 const adjustedFee: any = () => {return (currentForecast == lastForecast()) ? 0 : (fees/100)}
 
-                // Trailing stop loss
+                // Trailing stop loss and take profit
                 const adjustedPercentChange: any = (inc: Boolean) => {
-                    if (percentChange > stopLoss / 100 && inc) { // Is the prediction incorrect? is the stop loss active?
-                        stopTrade = true
-                        return stopLoss / 100
-                    } else if (currentForecast != lastForecast()) { // Is this a new trade?
+                    const tradeChange: any = () => {return (savedPrice === 0) ? 0 : (currentPrice - savedPrice)/savedPrice * 100} // Current trade percent change
+                    if (currentForecast != lastForecast()) { // Is this a new trade?
                         stopTrade = false
+                        savedPrice = currentPrice
                         return percentChange
-                    } else if (stopTrade) { // Stop loss active
+                    } else if (stopTrade) { // Stop loss or take profit active
                         return 0
-                    } else {
-                        return percentChange // Stop loss inactive
+                    } else if ((tradeChange() < (-1 * stopLoss)) || (tradeChange() > takeProfit)) { // Is the stop loss active? Is the take profit active?
+                        stopTrade = true
+                        return percentChange
+                    } else { // Otherwise just return percent change
+                        return percentChange
                     }
                 }
+                
                 if (correctPred) {
                     funds = funds*(1 + adjustedPercentChange(false) - 2*adjustedFee())
                 } else {
@@ -134,7 +139,13 @@ const Calculator = ({metrics}: any) => {
                         <div className={`font font-bold text-base sm:text-lg`}>
                             Trailing stop &#40;&#37;&#41;:
                         </div>
-                        <input name='exchange fees' type='number' value={stopLoss} onChange={(event: any) => setStopLoss(event.target.value)} step={0.1} className='max-w-[30%] text-center sm:text-right text-lg bg-zinc-300 dark:bg-zinc-800' />
+                        <input name='trailing stop' type='number' value={stopLoss} onChange={(event: any) => setStopLoss(event.target.value)} step={0.1} className='max-w-[30%] text-center sm:text-right text-lg bg-zinc-300 dark:bg-zinc-800' />
+                    </div>
+                    <div className={`flex flex-col sm:flex-row place-content-center sm:place-content-between place-items-center w-full min-w-fit sm:px-10 py-3 h-fit gap-3 shrink-0 rounded-xl bg-zinc-300 dark:bg-zinc-800`}>
+                        <div className={`font font-bold text-base sm:text-lg`}>
+                            Take profit &#40;&#37;&#41;:
+                        </div>
+                        <input name='take profit' type='number' value={takeProfit} onChange={(event: any) => setTakeProfit(event.target.value)} step={0.1} className='max-w-[30%] text-center sm:text-right text-lg bg-zinc-300 dark:bg-zinc-800' />
                     </div>
                     <div className='flex w-full place-content-center'>
                         <Button

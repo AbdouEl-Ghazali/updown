@@ -9,7 +9,7 @@ const Dashboard = () => {
   return (
     <div>
       <div className='text-center text-white px-5 py-1 bg-blue-900'>
-        May 15th 9pm CT - Model stability increased!
+        July 24th - Take profit function added to the calculator!
       </div>
       <div className='flex justify-between place-items-center px-5 py-1 bg-zinc-100 dark:bg-zinc-800'>
         <div className='flex flex-row justify-center place-items-center gap-1'>
