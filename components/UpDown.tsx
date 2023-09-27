@@ -23,8 +23,8 @@ const UpDown = ({upDownBG, children}: any) => {
                     WARNING! This forecasting tool is for educational purposes only.
                 </div>
             </div>
-            <div className={`flex place-content-center place-items-center w-full sm:w-[30%] sm:mr-10 h-24 sm:h-32 shrink-0 rounded-xl ${upDownBG}`}>
-                <div className={`font ${fontSize} font-bold text-white`}>
+            <div className={`border-b-4 ${upDownBG} flex place-content-center place-items-center w-full sm:w-[30%] sm:mr-10 h-24 sm:h-32 shrink-0 rounded-xl bg-zinc-200 bg-opacity-50 dark:bg-zinc-700`}>
+                <div className={`font ${fontSize} font-bold`}>
                     {children}
                 </div>
             </div>

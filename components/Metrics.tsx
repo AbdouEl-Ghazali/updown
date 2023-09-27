@@ -3,16 +3,16 @@ import { useState, useEffect } from 'react';
 import Metric from './Metric';
 
 const Metrics = ({metrics}: any) => {
-  const forecasted: Number = Math.round(metrics.forecasted * 100)
+  const forecasted: number = Math.round(metrics.forecasted * 100)
   const upSignals: Number = metrics.upSignals
   const downSignals: Number = metrics.downSignals
   const total: Number = metrics.total
   const ratio: Number = Math.round(+upSignals / +total * 100)
 
-  const upColor = 'bg-green-500'
-  const downColor = 'bg-red-500'
-  const totalColor = 'bg-slate-500'
-  const forecastColor = 'bg-blue-700'
+  const upColor = 'border-green-500'
+  const downColor = 'border-red-500'
+  const totalColor = 'border-slate-500'
+  const forecastColor = 'border-blue-700'
 
   const sentiment = (() => {return (forecasted > 70) ? 'BULLISH' : (forecasted < 30) ? 'BEARISH' : 'NEUTRAL'})
   const sentimentColor = (() => {return (forecasted > 70) ? upColor : (forecasted < 30) ? downColor : totalColor})
@@ -33,8 +33,8 @@ const Metrics = ({metrics}: any) => {
           <Metric metric={'Current Confidence'} color={totalColor}> 
             {sentimentStrength()}%
           </Metric>
-          <div className={`grid justify-items-center place-items-center mx-5 w-full max-w-xs min-w-[250px] h-24 rounded-xl bg-zinc-200 bg-opacity-50 dark:bg-zinc-700`}>
-              <div className={`flex justify-center place-items-center font text-2xl font-bold text-white w-4/6 h-4/6 text-center ${sentimentColor()} rounded-xl bg-opacity-${sentimentStrength()}`}>
+          <div className={`border-b-4 ${sentimentColor()} grid justify-items-center place-items-center mx-5 w-full max-w-xs min-w-[250px] h-24 rounded-xl bg-zinc-200 bg-opacity-50 dark:bg-zinc-700`}>
+              <div className={`flex justify-center place-items-center font text-2xl font-bold w-4/6 h-4/6 text-center rounded-xl`}>
                   <div>
                     {sentiment()}
                   </div>

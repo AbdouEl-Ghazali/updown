@@ -13,10 +13,10 @@ const Calculator = ({metrics}: any) => {
     const [stopLoss, setStopLoss] = useState(0.5)
     const [takeProfit, setTakeProfit] = useState(1.0)
     const [profit, setProfit] = useState(0.0)
-    const [profitBG, setProfitBG] = useState('')
+    const [profitBG, setProfitBG] = useState('gray')
 
-    const setBG = async () => {return (profit >= 0) ? 'bg-green-500' : 'bg-red-500'}
-    const calculate = async(funds:number, fees:number) => {
+    const setBG = async () => {return (profit >= 0) ? 'green-500' : 'red-500'}
+    const calculate = async(funds:number, fees:number, stopL:number = stopLoss, takeP:number = takeProfit) => {
         // Trading logic:
         // is correctPred? -> funds++ else funds--
         // is currentForecast up or down? -> 
@@ -26,61 +26,82 @@ const Calculator = ({metrics}: any) => {
         
         const correct = await data.data?.correct
         const forecasted = await data.data?.forecasted
-        const price = await data.data?.price_close
+        const price = data.data?.price_close
         var stopTrade = false
         var savedPrice = 0.0
 
-        for (var key in price) {
-            if (Object.keys(price).indexOf(key) != (Object.keys(price).length)-1){ // Don't include the last entry
-                
-                const index: any = Object.keys(price).indexOf(key)
-                const currentPrice: any = price[key]
-                const lastPrice: any = () => {return (index === 0) ? price[key] : Object.values(price)[Object.keys(price).indexOf(key) - 1]}
-                const correctPred: any = Object.values(correct)[Object.keys(correct).indexOf(key)]
-                const percentChange: any = Math.abs((lastPrice()-currentPrice)/lastPrice()) // We have short and long positions, we don't care about positive or negative changes
-                const currentForecast: any = Math.round(forecasted[key]) // Forecasts are paired with their associated timestamp, so current timestamp is last hour's forecast
-                const lastForecast: any = () => {return (index === 0) ? currentForecast : Math.round(Object.values(forecasted)[Object.keys(forecasted).indexOf(key) - 1] as any)}
-                const adjustedFee: any = () => {return (currentForecast == lastForecast()) ? 0 : (fees/100)}
+        if (price !== null && typeof price === 'object') {
+            const lastPrice: any = Object.values(price).slice(0, -1) // Array not including the last price
+            const lastForecast: any = Object.values(forecasted).slice(0, -1) 
+            const currentPrice = Object.values(price).slice(1) // Array not including the first price
+            const currentForecast: any = Object.values(forecasted).slice(1) // Array not including the first forecast
 
-                // Trailing stop loss and take profit
-                const adjustedPercentChange: any = (inc: Boolean) => {
-                    const tradeChange: any = () => {return (savedPrice === 0) ? 0 : (currentPrice - savedPrice)/savedPrice * 100} // Current trade percent change
-                    if (currentForecast != lastForecast()) { // Is this a new trade?
-                        stopTrade = false
-                        savedPrice = currentPrice
-                        return percentChange
-                    } else if (stopTrade) { // Stop loss or take profit active
-                        return 0
-                    } else if ((tradeChange() < (-1 * stopLoss)) || (tradeChange() > takeProfit)) { // Is the stop loss active? Is the take profit active?
-                        stopTrade = true
-                        return percentChange
-                    } else { // Otherwise just return percent change
-                        return percentChange
-                    }
-                }
-                
-                if (correctPred) {
-                    funds = funds*(1 + adjustedPercentChange(false) - 2*adjustedFee())
-                } else {
-                    funds = funds*(1 - adjustedPercentChange(true) - 2*adjustedFee())
-                }
+            var closeTrade: boolean = false
+
+            const percentChange = currentPrice.map((value, index): any => {
+                const sameTrade: boolean = Math.round(currentForecast[index]) === Math.round(lastForecast[index])
+                var results = (value as any - lastPrice[index]) // Price difference between current and last
+                                / lastPrice[index] // Divide by last price to get fraction change
+                                * 100 // Multiply by 100 to get percent change
+                                * (Math.round(currentForecast[index]) * 2 - 1) // Multiply by forecast (-1 or 1) to get profit/loss
+                closeTrade = (sameTrade) ? (results <= -stopL) || (results >= takeP) || closeTrade : // Same trade? Check for limit triggers or closed trades
+                                false // New trade
+                results =   (results <= -stopL) ? -stopL : // Stop loss check
+                            (results >= takeP) ? takeP : // Take profit check
+                            results
+                results =   (closeTrade) ? 0.0 : // Adjusting for closed trades
+                            (sameTrade) ? results : // No fees for same trade
+                            results - fees // Including fees
+                return  results
+            })
+
+            for (var index in percentChange) {
+                funds += funds * percentChange[index] / 100
             }
         }
         return funds
     }
 
     const getData = async() => {
-        setData(await metrics)
-        setProfit(await calculate(funds, fees) - funds)
+        if (data !== null && typeof data === 'object') {
+            setData(await metrics)
+        }
+        setProfit(await calculate(funds, fees, stopLoss, takeProfit) - funds)
         setProfitBG(await setBG())
+    }
+
+    const optimizeLosses = async () => { // Optimize stop loss and take profit calculations
+        if (mounted && (Object.keys(data).length != 0)) {
+            var bestProfit = -funds
+            var bestProfitIndexL = 0.0
+            var bestProfitIndexP = 0.0
+
+            for (let i = 0.1; i < 5.0; i += 0.1) {     
+                for (let j = 0.1; j < 5.0; j += 0.1) {    
+                    const currentProfit = await calculate(funds, fees, i, j) - funds
+                    if (currentProfit > bestProfit) {
+                        bestProfitIndexL = i
+                        bestProfitIndexP = j
+                        bestProfit = currentProfit
+                    }
+                }   
+
+            }
+
+            setStopLoss(Math.round(bestProfitIndexL * 10) / 10)
+            setTakeProfit(Math.round(bestProfitIndexP * 10) / 10)
+            setProfit(await calculate(funds, fees, stopLoss, takeProfit) - funds)
+            setProfitBG(await setBG())
+        }
     }
     
     useEffect(() => {
         if (!mounted) {
           setMounted(true)
+        } else {
+            getData()
         }
-        getData()
-      }, [metrics, data, mounted, profit, profitBG])
+      }, [metrics, data, mounted, profit, profitBG, stopLoss, takeProfit, fees])
 
   return (
     <div className='flex flex-auto w-full justify-center'>
@@ -115,11 +136,11 @@ const Calculator = ({metrics}: any) => {
             </div>
             <div className='flex w-fit h-fit lg:w-1/2 m-3 lg:m-5 gap-5 py-5 px-3 sm:px-5 text-center lg:text-left bg-zinc-200 bg-opacity-50 dark:bg-zinc-700 rounded-xl'>
                 <div className='flex flex-row flex-wrap w-full min-w-fit justify-between gap-3 font text-sm sm:text-base'>
-                    <div className={`flex flex-col sm:flex-row place-content-between place-items-center w-full min-w-fit sm:px-10 py-3 h-fit gap-3 shrink-0 rounded-xl text-white ${profitBG}`}>
+                    <div className={`border-b-4 flex flex-col sm:flex-row place-content-between place-items-center w-full min-w-fit sm:px-10 py-3 h-fit gap-3 shrink-0 rounded-xl border-${profitBG}`}>
                         <div className={`font font-bold text-lg sm:text-2xl`}>
                             Calculated profit:
                         </div>
-                        <div className={`font font-bold text-xl sm:text-2xl text-right`}>
+                        <div className={`font font-bold text-xl sm:text-2xl text-right text-${profitBG}`}>
                             ${profit.toFixed(2)}
                         </div>
                     </div>
@@ -147,13 +168,19 @@ const Calculator = ({metrics}: any) => {
                         </div>
                         <input name='take profit' type='number' value={takeProfit} onChange={(event: any) => setTakeProfit(event.target.value)} step={0.1} className='max-w-[30%] text-center sm:text-right text-lg bg-zinc-300 dark:bg-zinc-800' />
                     </div>
-                    <div className='flex w-full place-content-center'>
+                    <div className='flex w-full gap-5 place-content-center'>
                         <Button
+                            height = '50px'
+                            onClick = {() => optimizeLosses()}
+                            width = '150px'
+                            textSize = 'text-lg'
+                            > {'Optimize'} </Button>
+                        {/* <Button
                             height = '50px'
                             onClick = {() => getData()}
                             width = '150px'
                             textSize = 'text-lg'
-                            > {'Calculate'} </Button>
+                            > {'Calculate'} </Button> */}
                     </div>
                 </div>
             </div>

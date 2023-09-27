@@ -60,7 +60,7 @@ const ChartBlock = () => {
         setChartData(data)
         setChart(<LineChart chartData={data}/>)
         setUpDown(() => {return (data.forecasted >= 0.5) ? 'UP' : 'DOWN'})
-        setUpDownBG(() => {return (data.forecasted >= 0.5) ? 'bg-green-500' : 'bg-red-500'})
+        setUpDownBG(() => {return (data.forecasted >= 0.5) ? 'border-green-500' : 'border-red-500'})
         console.log('Chart set.')
       })
       .catch((err) => {console.log(err.message)})

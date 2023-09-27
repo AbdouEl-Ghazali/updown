@@ -41,9 +41,9 @@ export const prepData = (chartData: Forecast, currentTheme : any) => {
   const forecastColor: String = 'blue'
 
 
-  const forecast: Number[] = Object.values(chartData.data.forecasted)
+  const forecast: number[] = Object.values(chartData.data.forecasted)
   const keys: any[] = Object.keys(chartData.data.price_close)
-  const len: Number = Object.values(forecast).length // Number of datapoints
+  const len: number = Object.values(forecast).length // Number of datapoints
   const labels = keys.map(value => value)
 
   var priceClose: Number[] = Object.values(chartData.data.price_close) // Adjusting 'price_close' for forecast
