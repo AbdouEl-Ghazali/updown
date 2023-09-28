@@ -12,7 +12,7 @@ const UpDown = ({upDownBG, children}: any) => {
         <div className={`flex flex-col sm:flex-row gap-5 p-5 w-full justify-center sm:justify-between place-items-center bg-zinc-200 bg-opacity-50 dark:bg-zinc-700 dark:bg-opacity-50 rounded-xl`}>
             <div className='flex flex-col w-full sm:w-1/2 sm:ml-5 gap-5 py-5 sm:pl-5 text-justify sm:text-left '>
                 <div className='font text-xl text-center sm:text-justify sm:text-2xl font-bold'>
-                    Current indicator:
+                    Current Indicator:
                 </div>
                 <div className='font text-sm sm:text-base'>
                     Our A.I. powered algorithm predicts Bitcoin&apos;s price-action using a state of the art neural network trained on over 5 years of data. 
