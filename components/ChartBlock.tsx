@@ -90,7 +90,7 @@ const ChartBlock = () => {
           <div className='flex flex-col'>
             <div className='h-full flex flex-col place-content-center place-items-center mt-5 gap-5'>
               <div className='text-center font text-xl sm:text-2xl font-bold'>
-                UpDown Indicator History:
+                Indicator History:
               </div>
               <div className='container h-[350px] w-[95%] mt-3'>
                 {chart}

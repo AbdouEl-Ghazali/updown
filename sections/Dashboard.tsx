@@ -9,14 +9,14 @@ const Dashboard = () => {
   return (
     <div>
       <div className='text-center text-white px-5 py-1 bg-blue-900'>
-        July 24th - Take profit function added to the calculator!
+        September 27th - Calculator improvements including trade optimization!
       </div>
       <div className='flex justify-between place-items-center px-5 py-1 bg-zinc-100 dark:bg-zinc-800'>
         <div className='flex flex-row justify-center place-items-center gap-1'>
           <Image src={logoSVG} alt="UpDown Logo" width={50} height={50} />
-          <h1>
-            UpDown
-          </h1>
+          <div className={'text-md tracking-wider font-semibold text-center'}>
+            U.D. Market Analytics
+          </div>
         </div>
         <div>
           <Darkmode/>

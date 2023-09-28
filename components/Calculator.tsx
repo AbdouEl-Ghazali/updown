@@ -13,7 +13,7 @@ const Calculator = ({metrics}: any) => {
     const [stopLoss, setStopLoss] = useState(0.5)
     const [takeProfit, setTakeProfit] = useState(1.0)
     const [profit, setProfit] = useState(0.0)
-    const [profitBG, setProfitBG] = useState('gray')
+    const [profitBG, setProfitBG] = useState('black')
 
     const setBG = async () => {return (profit >= 0) ? 'green-500' : 'red-500'}
     const calculate = async(funds:number, fees:number, stopL:number = stopLoss, takeP:number = takeProfit) => {
@@ -90,8 +90,8 @@ const Calculator = ({metrics}: any) => {
 
             setStopLoss(Math.round(bestProfitIndexL * 10) / 10)
             setTakeProfit(Math.round(bestProfitIndexP * 10) / 10)
-            setProfit(await calculate(funds, fees, stopLoss, takeProfit) - funds)
-            setProfitBG(await setBG())
+            // setProfit(await calculate(funds, fees, stopLoss, takeProfit) - funds)
+            // setProfitBG(await setBG())
         }
     }
     
@@ -130,7 +130,7 @@ const Calculator = ({metrics}: any) => {
                         $\pm$ to denote correct or incorrect prediction for hour $t$
                     </Latex>
                 </div>
-                <div className='font text-sm sm:text-base text-left'>
+                <div className='border-t-2 border-yellow-500 max-w-sm px-5 place-self-center text-yellow-700 dark:text-yellow-500 text-sm text-center rounded-lg'>
                     WARNING! Calculated profit may not be accurate.
                 </div>
             </div>
@@ -144,29 +144,29 @@ const Calculator = ({metrics}: any) => {
                             ${profit.toFixed(2)}
                         </div>
                     </div>
-                    <div className={`flex flex-col sm:flex-row place-content-between place-items-center w-full min-w-fit sm:px-10 py-3 h-fit gap-3 shrink-0 rounded-xl bg-zinc-300 dark:bg-zinc-800`}>
+                    <div className={`flex flex-col sm:flex-row place-content-between place-items-center w-full min-w-fit sm:px-10 py-3 h-fit gap-3 shrink-0 rounded-xl bg-zinc-200 dark:bg-zinc-800`}>
                         <div className={`font font-bold text-base sm:text-lg`}>
                             Starting funds &#40;&#36;&#41;:
                         </div>
-                        <input name='starting funds' type='number' value={funds} onChange={(event: any) => setFunds(event.target.value)} step={100} className='max-w-[30%] text-center sm:text-right text-lg bg-zinc-300 dark:bg-zinc-800' />
+                        <input name='starting funds' type='number' value={funds} onChange={(event: any) => setFunds(event.target.value)} step={100} className='max-w-[30%] text-right pr-1 text-lg bg-zinc-300 dark:bg-zinc-700 rounded-md' />
                     </div>
-                    <div className={`flex flex-col sm:flex-row place-content-center sm:place-content-between place-items-center w-full min-w-fit sm:px-10 py-3 h-fit gap-3 shrink-0 rounded-xl bg-zinc-300 dark:bg-zinc-800`}>
+                    <div className={`flex flex-col sm:flex-row place-content-center sm:place-content-between place-items-center w-full min-w-fit sm:px-10 py-3 h-fit gap-3 shrink-0 rounded-xl bg-zinc-200 dark:bg-zinc-800`}>
                         <div className={`font font-bold text-base sm:text-lg`}>
                             Trading fees &#40;&#37;&#41;:
                         </div>
-                        <input name='exchange fees' type='number' value={fees} onChange={(event: any) => setFees(event.target.value)} step={0.01} className='max-w-[30%] text-center sm:text-right text-lg bg-zinc-300 dark:bg-zinc-800' />
+                        <input name='exchange fees' type='number' value={fees} onChange={(event: any) => setFees(event.target.value)} step={0.01} className='max-w-[30%] text-right pr-1 text-lg bg-zinc-300 dark:bg-zinc-700 rounded-md' />
                     </div>
-                    <div className={`flex flex-col sm:flex-row place-content-center sm:place-content-between place-items-center w-full min-w-fit sm:px-10 py-3 h-fit gap-3 shrink-0 rounded-xl bg-zinc-300 dark:bg-zinc-800`}>
+                    <div className={`flex flex-col sm:flex-row place-content-center sm:place-content-between place-items-center w-full min-w-fit sm:px-10 py-3 h-fit gap-3 shrink-0 rounded-xl bg-zinc-200 dark:bg-zinc-800`}>
                         <div className={`font font-bold text-base sm:text-lg`}>
                             Trailing stop &#40;&#37;&#41;:
                         </div>
-                        <input name='trailing stop' type='number' value={stopLoss} onChange={(event: any) => setStopLoss(event.target.value)} step={0.1} className='max-w-[30%] text-center sm:text-right text-lg bg-zinc-300 dark:bg-zinc-800' />
+                        <input name='trailing stop' type='number' value={stopLoss} onChange={(event: any) => setStopLoss(event.target.value)} step={0.1} className='max-w-[30%] text-right pr-1 text-lg bg-zinc-300 dark:bg-zinc-700 rounded-md' />
                     </div>
-                    <div className={`flex flex-col sm:flex-row place-content-center sm:place-content-between place-items-center w-full min-w-fit sm:px-10 py-3 h-fit gap-3 shrink-0 rounded-xl bg-zinc-300 dark:bg-zinc-800`}>
+                    <div className={`flex flex-col sm:flex-row place-content-center sm:place-content-between place-items-center w-full min-w-fit sm:px-10 py-3 h-fit gap-3 shrink-0 rounded-xl bg-zinc-200 dark:bg-zinc-800`}>
                         <div className={`font font-bold text-base sm:text-lg`}>
                             Take profit &#40;&#37;&#41;:
                         </div>
-                        <input name='take profit' type='number' value={takeProfit} onChange={(event: any) => setTakeProfit(event.target.value)} step={0.1} className='max-w-[30%] text-center sm:text-right text-lg bg-zinc-300 dark:bg-zinc-800' />
+                        <input name='take profit' type='number' value={takeProfit} onChange={(event: any) => setTakeProfit(event.target.value)} step={0.1} className='max-w-[30%] text-right pr-1 text-lg bg-zinc-300 dark:bg-zinc-700 rounded-md' />
                     </div>
                     <div className='flex w-full gap-5 place-content-center'>
                         <Button
