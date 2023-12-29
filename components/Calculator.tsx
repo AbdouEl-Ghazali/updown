@@ -16,7 +16,7 @@ const Calculator = ({metrics}: any) => {
     const [profitBG, setProfitBG] = useState('black')
 
     const setBG = async () => {return (profit >= 0) ? 'green-500' : 'red-500'}
-    const calculate = async(funds:number, fees:number, stopL:number = stopLoss, takeP:number = takeProfit) => {
+    const calculate = async(initFunds:number, fees:number, stopL:number = stopLoss, takeP:number = takeProfit) => {
         // Trading logic:
         // is correctPred? -> funds++ else funds--
         // is currentForecast up or down? -> 
@@ -27,6 +27,7 @@ const Calculator = ({metrics}: any) => {
         const correct = await data.data?.correct
         const forecasted = await data.data?.forecasted
         const price = data.data?.price_close
+        var calcFunds = initFunds
         var stopTrade = false
         var savedPrice = 0.0
 
@@ -56,17 +57,17 @@ const Calculator = ({metrics}: any) => {
             })
 
             for (var index in percentChange) {
-                funds += funds * percentChange[index] / 100
+                calcFunds = Number(calcFunds) + (Number(calcFunds) * percentChange[index] / 100)
             }
         }
-        return funds
+        return calcFunds - initFunds
     }
 
     const getData = async() => {
         if (data !== null && typeof data === 'object') {
             setData(await metrics)
         }
-        setProfit(await calculate(funds, fees, stopLoss, takeProfit) - funds)
+        setProfit(await calculate(funds, fees, stopLoss, takeProfit))
         setProfitBG(await setBG())
     }
 
@@ -78,7 +79,7 @@ const Calculator = ({metrics}: any) => {
 
             for (let i = 0.1; i < 5.0; i += 0.1) {     
                 for (let j = 0.1; j < 5.0; j += 0.1) {    
-                    const currentProfit = await calculate(funds, fees, i, j) - funds
+                    const currentProfit = await calculate(funds, fees, i, j)
                     if (currentProfit > bestProfit) {
                         bestProfitIndexL = i
                         bestProfitIndexP = j
@@ -101,7 +102,7 @@ const Calculator = ({metrics}: any) => {
         } else {
             getData()
         }
-      }, [metrics, data, mounted, profit, profitBG, stopLoss, takeProfit, fees])
+      }, [metrics, data, mounted, profit, profitBG, stopLoss, takeProfit, fees, funds])
 
   return (
     <div className='flex flex-auto w-full justify-center'>
