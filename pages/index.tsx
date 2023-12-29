@@ -20,6 +20,10 @@ export default function Home() {
         <meta name="description" content="Bitcoin up or down? Deep Learning powered BTC Forecasting Algorithm" />
         <link rel="icon" href={'./logoSVG.svg'} />
       </Head>
+
+      <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PV3Q45KB" height="0" width="0" style={{display:"none", visibility:"hidden"}}></iframe>
+      </noscript>
       
       <Dashboard/>
       <Body/>
