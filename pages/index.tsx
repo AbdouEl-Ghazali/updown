@@ -10,7 +10,7 @@ import { initializeGoogleTagManager } from '../components/GoogleTag'
 export default function Home() {
   useEffect(() => {
     // Initialize Google Tag manager
-    initializeGoogleTagManager('G-57B6E619D4')
+    initializeGoogleTagManager('GTM-PV3Q45KB')
   }, []);
 
   return (
