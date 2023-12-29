@@ -4,8 +4,15 @@ import Dashboard from '../sections/Dashboard'
 import Body from '../sections/Body'
 import Footer from '../sections/Footer'
 import Head from 'next/head'
+import { useEffect } from 'react';
+import { initializeGoogleTagManager } from '../components/GoogleTag'
 
 export default function Home() {
+  useEffect(() => {
+    // Initialize Google Tag manager
+    initializeGoogleTagManager('G-57B6E619D4')
+  }, []);
+
   return (
     <div>
       <Head>
