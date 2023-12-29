@@ -8,9 +8,9 @@ const Dashboard = () => {
 
   return (
     <div>
-      <div className='text-center text-white px-5 py-1 bg-blue-900'>
+      {/* <div className='text-center text-white px-5 py-1 bg-blue-900'>
         September 27th - Calculator improvements including trade optimization!
-      </div>
+      </div> */}
       <div className='flex justify-between place-items-center px-5 py-1 bg-zinc-100 dark:bg-zinc-800'>
         <div className='flex flex-row justify-center place-items-center gap-1'>
           <Image src={logoSVG} alt="UpDown Logo" width={50} height={50} />

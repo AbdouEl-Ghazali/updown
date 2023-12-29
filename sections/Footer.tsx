@@ -13,7 +13,7 @@ const Footer = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Project by{' '}
+          Developed by {' '}
           <Image src={logoSVG} alt="UpDown Logo" width={50} height={50} />
         </a>
       </footer>
